@@ -1,0 +1,13 @@
+            NOME	                            CARGO
+Mirian Perpétua Palha Dias Parente	Diretora da ESPPI
+Luciana Saraiva E Silva	            Gerente de Ensino e Pesquisa
+Gildemar Paulo Da Silva             Coordenador de Ensino e Pesquisa
+José Antônio de Almendra Carvalho	Supervisor Pedagógico
+Andréa Nunes de Carvalho Mendes	    Agente Ocupacional de Nível Superior
+Gisele Gomes de Oliveira Leal	    Agente Ocupacional de Nível Superior
+Luciana Amorim Rodrigues Lima	    Técnico de Apoio Administrativo
+Érico Nogueira de Areia Leão        Assistente Administrativo
+Addeline Pereira Borges	            Auxiliar Administrativo
+Creusa Maria  Costa  de Oliveira	Agente Técnico  de Serviço
+Jacira Gonçalves de Oliveira	    Assistente de serviço I
+David Perfeito Leôncio              Desenvolvedor Web

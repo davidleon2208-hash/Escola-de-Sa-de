@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escola de Saúde Pública do Piauí</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%);
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #ffeb3b;
+    }
+
+    /* Submenu para Serviços */
+    .has-submenu { position: relative; }
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #1e3a5f;
+      min-width: 200px;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      padding: 8px 0;
+      z-index: 50;
+      flex-direction: column;
+    }
+
+    .submenu li { list-style: none; }
+    .submenu li a {
+      color: white;
+      display: block;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .submenu li a:hover { background: rgba(255,255,255,0.08); color: #ffeb3b; }
+
+    /* Hover em desktop abre o submenu */
+    .has-submenu:hover > .submenu { display: flex; }
+
+    /* Mobile: submenu dentro do fluxo quando aberto */
+    .submenu.open { display: flex; position: static; padding-left: 0; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background-color: #f0f0f0;
+    }
+
+    .carousel-item {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .carousel-item.active {
+      opacity: 1;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background-color: #ffeb3b;
+    }
+
+    .carousel-dot:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel-button.prev {
+      left: 10px;
+    }
+
+    .carousel-button.next {
+      right: 10px;
+    }
+
+    .ban {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%);
+      color: white;
+      padding: 60px 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .ban h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .ban p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .about-section {
+      background-color: #f9f9f9;
+      padding: 80px 20px;
+      margin-bottom: 40px;
+    }
+
+    .about-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .about-header h2 {
+      font-size: 36px;
+      color: #1e3a5f;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .about-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%);
+      border-radius: 2px;
+    }
+
+    .about-header p {
+      font-size: 18px;
+      color: #666;
+      margin-top: 20px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .about-card {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .about-card h3 {
+      color: #1e3a5f;
+      font-size: 22px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .about-card-icon {
+      font-size: 32px;
+    }
+
+    .about-card p {
+      color: #666;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .about-description {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      border-left: 5px solid #2c5aa0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-description h3 {
+      color: #1e3a5f;
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .about-description p {
+      color: #666;
+      line-height: 1.8;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .about-description ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .about-description ul li {
+      padding-left: 25px;
+      position: relative;
+      margin-bottom: 10px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .about-description ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #2c5aa0;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Seção Cursos */
+    .courses-section {
+      padding: 80px 20px;
+      background: #ffffff;
+      margin-bottom: 40px;
+    }
+
+    .courses-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .courses-header h2 {
+      font-size: 32px;
+      color: #1e3a5f;
+      margin-bottom: 10px;
+    }
+
+    .courses-header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    .course-thumb {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .course-title {
+      color: #1e3a5f;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .course-desc {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .course-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #2c5aa0, #1e3a5f);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .course-thumb { height: 140px; }
+    }
+
+    /* Seção Equipe */
+    .team-section { padding: 60px 20px; background: #ffffff; margin-bottom: 40px; }
+    .team-header { text-align: center; margin-bottom: 30px; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:20px; max-width:1200px; margin:0 auto; }
+    .team-card { background: white; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06); text-align:center; }
+    .team-avatar { width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,#2c5aa0,#1e3a5f); color:white; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; margin-bottom:12px; position:relative; overflow:hidden; }
+    .team-photo { width:100%; height:100%; object-fit:cover; display:block; }
+    .team-initials { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; color:white; }
+    .team-name { color:#1e3a5f; font-weight:700; margin-bottom:6px; }
+    .team-role { color:#666; font-size:14px; margin-bottom:10px; }
+    .btn-small { background: linear-gradient(135deg, #2c5aa0, #1e3a5f); color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 13px; }
+
+    /* Modal / local com equipe completa */
+    .modal { display:none; position:fixed; inset:0; background: rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:200; }
+    .modal.open { display:flex; }
+    .modal-content { background:white; width:90%; max-width:900px; max-height:80vh; overflow:auto; border-radius:8px; padding:20px; }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .modal-header h3 { color:#1e3a5f; }
+    .team-list { list-style:none; padding:0; margin:0; }
+    .team-list li { padding:10px 0; border-bottom:1px solid #eee; }
+
+    /* Seção Contato */
+    .contact-section { padding:60px 20px; background:#f7fbff; margin-bottom:40px; }
+    .contact-grid { max-width:1200px; margin:0 auto; display:grid; grid-template-columns: 1fr 380px; gap:30px; }
+    .contact-card { background:white; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .contact-card h3 { color:#1e3a5f; margin-bottom:10px; }
+    .contact-form label { display:block; font-size:14px; color:#444; margin-bottom:6px; }
+    .contact-form input, .contact-form textarea { width:100%; padding:10px; border:1px solid #e6e6e6; border-radius:6px; margin-bottom:12px; font-size:14px; }
+    .contact-form textarea { min-height:120px; resize:vertical; }
+    .contact-info { background:white; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .contact-info p { color:#666; margin-bottom:8px; }
+    .contact-success { display:none; background:#e6ffea; border:1px solid #b7f0c8; color:#097a3d; padding:10px; border-radius:6px; margin-bottom:12px; }
+    .team-list li strong { color:#1e3a5f; display:block; }
+    .team-list li { display:flex; align-items:center; gap:15px; }
+    .team-list-photo { width:60px; height:60px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+
+    /* Seções: Serviços, Notícias, Eventos, Projetos */
+    .services-section {
+      padding: 60px 20px;
+      background: #f7fbff;
+      margin-bottom: 40px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: white;
+      padding: 18px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 6px 20px rgba(0,0,0,0.10); }
+
+    .service-title { color: #1e3a5f; font-weight:700; margin-bottom:8px; }
+    .service-desc { color:#666; font-size:14px; line-height:1.6; }
+
+    .news-section { padding: 60px 20px; background: #ffffff; margin-bottom: 40px; }
+    .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; max-width:1200px; margin:0 auto; }
+    .news-item { background:white; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .news-thumb { width:100%; height:160px; object-fit:cover; }
+    .news-body { padding:14px; }
+    .news-title { color:#1e3a5f; font-weight:700; margin-bottom:8px; }
+    .news-meta { font-size:13px; color:#999; margin-bottom:10px; }
+
+    .events-section { padding:60px 20px; background:#f7fbff; margin-bottom:40px; }
+    .events-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:20px; max-width:1200px;margin:0 auto; }
+    .event-card { background:white;padding:16px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .event-date { background:linear-gradient(135deg,#2c5aa0,#1e3a5f); color:white; padding:8px 10px; border-radius:6px; font-weight:700; display:inline-block; margin-bottom:10px; }
+
+    .projects-section { padding:60px 20px; background:#ffffff; margin-bottom:40px; }
+    .projects-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:20px; max-width:1200px;margin:0 auto; }
+    .project-card { background:white;padding:16px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .project-title { color:#1e3a5f; font-weight:700; margin-bottom:8px; }
+
+    @media (max-width:600px) {
+      .news-thumb { height:140px; }
+      .news-grid, .services-grid, .events-grid, .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    footer {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%);
+      color: white;
+      padding: 50px 20px 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+      font-size: 16px;
+      border-bottom: 2px solid #ffeb3b;
+      padding-bottom: 10px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-section a {
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #ffeb3b;
+    }
+
+    .footer-section p {
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      height: 35px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background-color: #ffeb3b;
+      color: #1e3a5f;
+    }
+
+    .footer-divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 30px 0;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: #b0b0b0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #1e3a5f;
+        flex-direction: column;
+        gap: 0;
+        padding: 20px 0;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav a {
+        display: block;
+        padding: 12px 20px;
+        border-radius: 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .banner h1 {
+        font-size: 24px;
+      }
+
+      nav {
+        position: relative;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <img src="imagem/logo.svg" alt="Logo Escola de Saúde">
+        <span>Escola de Saúde Pública do Piauí</span>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav>
+        <ul id="menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Sobre</a></li>
+          <li><a href="#courses">Cursos</a></li>
+          <li class="has-submenu">
+            <a href="#services" class="submenu-toggle" data-submenu="true" onclick="toggleSubmenu(event)">Serviços ▾</a>
+            <ul class="submenu" aria-label="Submenu Serviços">
+              <li><a href="#noticias">Notícias</a></li>
+              <li><a href="#eventos">Eventos</a></li>
+              <li><a href="#projetos">Projetos</a></li>
+            </ul>
+          </li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Carrossel de Banners -->
+    <div class="carousel-container">
+      <div class="carousel" id="carousel">
+        <div class="carousel-item active">
+          <img src="imagem/banner01.png" alt="Banner 1">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/banner02.jpg" alt="Banner 2">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/banner03.png" alt="Banner 3">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/banner04.png" alt="Banner 4">
+        </div>
+        <div class="carousel-item">
+          <img src="imagem/banner05 - Copia.png" alt="Banner 5">
+        </div>
+      </div>
+
+      <button class="carousel-button prev" onclick="prevSlide()">❮</button>
+      <button class="carousel-button next" onclick="nextSlide()">❯</button>
+
+      <div class="carousel-controls">
+        <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+        <button class="carousel-dot" onclick="goToSlide(1)"></button>
+        <button class="carousel-dot" onclick="goToSlide(2)"></button>
+        <button class="carousel-dot" onclick="goToSlide(3)"></button>
+        <button class="carousel-dot" onclick="goToSlide(4)"></button>
+      </div>
+    </div>
+
+    <section class="ban" id="home">
+      <h1>Bem-vindo à Escola de Saúde Pública</h1>
+      <p>Formando profissionais de excelência na área da saúde pública</p>
+    </section>
+
+    <!-- Seção Sobre Nós -->
+    <section class="about-section" id="about">
+      <div class="about-content">
+        <div class="about-header">
+          <h2>Sobre Nós</h2>
+          <p>Conheça a história e missão da Escola de Saúde Pública do Piauí</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <h3><span class="about-card-icon">🎯</span>Missão</h3>
+            <p>Formar profissionais qualificados e comprometidos com a saúde pública, através de ensino inovador e práticas baseadas em evidências científicas.</p>
+          </div>
+
+          <div class="about-card">
+            <h3><span class="about-card-icon">👁️</span>Visão</h3>
+            <p>Ser referência nacional na formação de gestores e profissionais de saúde pública, contribuindo para a melhoria da qualidade de vida da população.</p>
+          </div>
+
+          <div class="about-card">
+            <h3><span class="about-card-icon">💡</span>Valores</h3>
+            <p>Excelência, ética profissional, comprometimento com a comunidade, inovação e respeito à diversidade são nossos pilares fundamentais.</p>
+          </div>
+        </div>
+
+        <div class="about-description">
+          <h3>Nossa História</h3>
+          <p>A Escola de Saúde Pública do Piauí foi criada com o objetivo de preparar profissionais para os desafios complexos do setor de saúde pública. Com mais de duas décadas de atuação, temos formado milhares de profissionais que atuam em diversos municípios e estados do Brasil.</p>
+          
+          <p>Nossas atividades abrangem a educação continuada, pesquisa, e a assistência técnica para órgãos de saúde, sempre mantendo o compromisso com a excelência acadêmica e a responsabilidade social.</p>
+
+          <h3 style="margin-top: 30px; margin-bottom: 15px;">Nossos Destaques</h3>
+          <ul>
+            <li>Corpo docente experiente com mestrado e doutorado em áreas da saúde pública</li>
+            <li>Cursos presenciais, semipresenciais e à distância acessíveis a todo o Brasil</li>
+            <li>Parceria com universidades e instituições de saúde de renome nacional e internacional</li>
+            <li>Laboratórios e infraestrutura moderna para educação prática</li>
+            <li>Foco em formação de líderes para o sistema de saúde público</li>
+            <li>Pesquisa aplicada aos problemas reais de saúde pública do Piauí e do Brasil</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Equipe -->
+    <section class="team-section" id="equipe">
+      <div class="team-header">
+        <h2>Nossa Equipe</h2>
+        <p>Conheça a direção e coordenação da nossa escola. Veja a equipe completa clicando em "Saiba mais".</p>
+      </div>
+
+      <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">
+          <img class="team-photo" src="imagem/colaboradores/Dra Mirian.png" alt="Mirian Perpétua Palha Dias Parente">
+          <span class="team-initials">MP</span>
+        </div>
+        <div class="team-name">Mirian Perpétua Palha Dias Parente</div>
+        <div class="team-role">Diretora da ESPPI</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <img class="team-photo" src="imagem/colaboradores/Luciana_Saraiva.png" alt="Luciana Saraiva E Silva">
+          <span class="team-initials">LS</span>
+        </div>
+        <div class="team-name">Luciana Saraiva E Silva</div>
+        <div class="team-role">Gerente de Ensino e Pesquisa</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">
+          <img class="team-photo" src="imagem/colaboradores/Gildemar.png" alt="Gildemar Paulo Da Silva">
+          <span class="team-initials">GP</span>
+        </div>
+        <div class="team-name">Gildemar Paulo Da Silva</div>
+        <div class="team-role">Coordenador de Ensino e Pesquisa</div>
+      </div>
+    </div>
+
+      <div style="text-align:center; margin-top:18px;">
+        <button class="btn-small" onclick="openTeamModal()">Saiba mais</button>
+      </div>
+    </section>
+
+    <!-- Seção Cursos -->
+    <section class="courses-section" id="courses">
+      <div class="courses-header">
+        <h2>Nossos Cursos</h2>
+        <p>Oferecemos formações contínuas e especializações voltadas para profissionais de saúde e gestores.</p>
+      </div>
+
+      <div class="courses-grid">
+        <article class="course-card">
+          <img class="course-thumb" src="imagem/banner01.png" alt="Saúde Pública">
+          <h4 class="course-title">Saúde Pública</h4>
+          <p class="course-desc">Curso básico e avançado sobre políticas públicas de saúde, planejamento e atenção primária.</p>
+          <div class="course-footer">
+            <span class="course-duration">40h</span>
+            <a class="btn" href="#">Saiba mais</a>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <img class="course-thumb" src="imagem/banner02.jpg" alt="Gestão em Saúde">
+          <h4 class="course-title">Gestão em Saúde</h4>
+          <p class="course-desc">Formação para gestores com foco em gestão de serviços, planejamento estratégico e liderança.</p>
+          <div class="course-footer">
+            <span class="course-duration">60h</span>
+            <a class="btn" href="#">Saiba mais</a>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <img class="course-thumb" src="imagem/banner03.png" alt="Epidemiologia">
+          <h4 class="course-title">Epidemiologia</h4>
+          <p class="course-desc">Abordagens em vigilância epidemiológica, análise de dados e investigação de surtos.</p>
+          <div class="course-footer">
+            <span class="course-duration">48h</span>
+            <a class="btn" href="#">Saiba mais</a>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <img class="course-thumb" src="imagem/banner04.png" alt="Vigilância Sanitária">
+          <h4 class="course-title">Vigilância Sanitária</h4>
+          <p class="course-desc">Capacitação em legislação sanitária, inspeção e controle de riscos à saúde.</p>
+          <div class="course-footer">
+            <span class="course-duration">36h</span>
+            <a class="btn" href="#">Saiba mais</a>
+          </div>
+        </article>
+
+        <article class="course-card">
+          <img class="course-thumb" src="imagem/banner05 - Copia.png" alt="Promoção da Saúde">
+          <h4 class="course-title">Promoção da Saúde</h4>
+          <p class="course-desc">Estratégias de promoção da saúde, educação em saúde e intervenções comunitárias.</p>
+          <div class="course-footer">
+            <span class="course-duration">32h</span>
+            <a class="btn" href="#">Saiba mais</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Seção Serviços -->
+    <section class="services-section" id="services">
+      <div class="services-grid">
+        <div class="service-card">
+          <h4 class="service-title">Consultoria em Saúde</h4>
+          <p class="service-desc">Consultoria técnica para gestão de programas de saúde pública e planejamento estratégico.</p>
+        </div>
+
+        <div class="service-card">
+          <h4 class="service-title">Capacitação Profissional</h4>
+          <p class="service-desc">Cursos e treinamentos presenciais e à distância para equipes de saúde.</p>
+        </div>
+
+        <div class="service-card">
+          <h4 class="service-title">Assessoria Técnica</h4>
+          <p class="service-desc">Assistência técnica para vigilância, atenção primária e políticas de promoção da saúde.</p>
+        </div>
+
+        <div class="service-card">
+          <h4 class="service-title">Pesquisa Aplicada</h4>
+          <p class="service-desc">Projetos de pesquisa para avaliação de programas e intervenções em saúde pública.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Notícias -->
+    <section class="news-section" id="noticias">
+      <div class="news-grid">
+        <article class="news-item">
+          <img class="news-thumb" src="imagem/banner01.png" alt="Notícia 1">
+          <div class="news-body">
+            <div class="news-meta">29 Jan 2026 • Notícias</div>
+            <h4 class="news-title">Novo curso em Gestão de Crises</h4>
+            <p>Inscrições abertas para o curso de gestão de crises em saúde pública, com início em março.</p>
+          </div>
+        </article>
+
+        <article class="news-item">
+          <img class="news-thumb" src="imagem/banner02.jpg" alt="Notícia 2">
+          <div class="news-body">
+            <div class="news-meta">15 Jan 2026 • Notícias</div>
+            <h4 class="news-title">Parceria com Universidade Federal</h4>
+            <p>Firmamos parceria para pesquisa em vigilância epidemiológica com a UF local.</p>
+          </div>
+        </article>
+
+        <article class="news-item">
+          <img class="news-thumb" src="imagem/banner03.png" alt="Notícia 3">
+          <div class="news-body">
+            <div class="news-meta">02 Dez 2025 • Notícias</div>
+            <h4 class="news-title">Relatório de Impacto 2025</h4>
+            <p>Publicamos o relatório anual com os principais resultados das ações implementadas.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Seção Eventos -->
+    <section class="events-section" id="eventos">
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-date">10 Fev</div>
+          <h4 style="margin:8px 0 6px;">Seminário Regional de Saúde</h4>
+          <p>Debates sobre políticas públicas e estratégias locais de prevenção.</p>
+        </div>
+
+        <div class="event-card">
+          <div class="event-date">22 Mar</div>
+          <h4 style="margin:8px 0 6px;">Oficina de Epidemiologia</h4>
+          <p>Oficina prática para profissionais da atenção primária sobre vigilância.</p>
+        </div>
+
+        <div class="event-card">
+          <div class="event-date">05 Abr</div>
+          <h4 style="margin:8px 0 6px;">Encontro de Pesquisadores</h4>
+          <p>Apresentação de projetos e resultados de pesquisa aplicada em saúde pública.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção Projetos -->
+    <section class="projects-section" id="projetos">
+      <div class="projects-grid">
+        <div class="project-card">
+          <h4 class="project-title">Projeto Comunidades Saudáveis</h4>
+          <p>Intervenções locais para promoção da saúde com participação comunitária.</p>
+        </div>
+
+        <div class="project-card">
+          <h4 class="project-title">Monitoramento de Doenças</h4>
+          <p>Projeto de vigilância integrada com foco em detecção precoce de surtos.</p>
+        </div>
+
+        <div class="project-card">
+          <h4 class="project-title">Capacitação de Agentes</h4>
+          <p>Treinamentos contínuos para agentes de saúde locais nas práticas de promoção e prevenção.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Seção Contato -->
+  <section class="contact-section" id="contact">
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Fale Conosco</h3>
+        <div class="contact-success" id="contactSuccess">Mensagem enviada com sucesso. Entraremos em contato em breve.</div>
+        <form id="contactForm" class="contact-form">
+          <label for="name">Nome</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="message">Mensagem</label>
+          <textarea id="message" name="message" required></textarea>
+
+          <button class="btn-small" type="submit">Enviar</button>
+        </form>
+      </div>
+
+      <aside class="contact-info">
+        <h3>Informações</h3>
+        <p><strong>Email:</strong> <a href="mailto:esppi21@gmail.com">esppi21@gmail.com</a></p>
+        <p><strong>Telefone:</strong> <a href="tel:+558632215000">(86) 3XXX-5000</a></p>
+        <p><strong>Endereço:</strong> Teresina, Piauí - Brasil</p>
+        <p><strong>Horário:</strong> Seg-Sex: 7h às 13h</p>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Sobre a Escola</h3>
+        <p>A Escola de Saúde Pública do Piauí é uma instituição dedicada à formação de profissionais qualificados na área de saúde pública, com excelência e inovação.</p>
+        <div class="social-links">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3>Links Rápidos</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Sobre Nós</a></li>
+          <li><a href="#courses">Cursos</a></li>
+          <li><a href="#services">Serviços</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Cursos</h3>
+        <ul>
+          <li><a href="#">Saúde Pública</a></li>
+          <li><a href="#">Gestão em Saúde</a></li>
+          <li><a href="#">Epidemiologia</a></li>
+          <li><a href="#">Vigilância Sanitária</a></li>
+          <li><a href="#">Promoção da Saúde</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Contato</h3>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:contato@escolasaude.pi.gov.br">contato@escolasaude.pi.gov.br</a></li>
+          <li><strong>Telefone:</strong> <a href="tel:+558632215000">(86) 3221-5000</a></li>
+          <li><strong>Endereço:</strong> Teresina, Piauí - Brasil</li>
+          <li><strong>Horário:</strong> Seg-Sex: 8h às 17h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Escola de Saúde Pública do Piauí. Todos os direitos reservados.</p>
+      <p>Desenvolvido com ❤️ para a saúde pública</p>
+    </div>
+  </footer>
+
+  <!-- Modal com equipe completa -->
+  <div id="teamModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="teamModalTitle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="teamModalTitle">Equipe Completa</h3>
+        <button aria-label="Fechar" onclick="closeTeamModal()">✕</button>
+      </div>
+      <ul class="team-list">
+        <li><img class="team-list-photo" src="imagem/colaboradores/Dra Mirian.png" alt="Mirian Perpétua"><strong>Mirian Perpétua Palha Dias Parente</strong><span> — Diretora da ESPPI</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Luciana_Saraiva.png" alt="Luciana Saraiva"><strong>Luciana Saraiva E Silva</strong><span> — Gerente de Ensino e Pesquisa</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Gildemar.png" alt="Gildemar Paulo"><strong>Gildemar Paulo Da Silva</strong><span> — Coordenador de Ensino e Pesquisa</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Jose_Antonio.png" alt="José Antônio"><strong>José Antônio de Almendra Carvalho</strong><span> — Supervisor Pedagógico</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Andreia.png" alt="Andréa Nunes"><strong>Andréa Nunes de Carvalho Mendes</strong><span> — Agente Ocupacional de Nível Superior</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Gisele.png" alt="Gisele Gomes"><strong>Gisele Gomes de Oliveira Leal</strong><span> — Agente Ocupacional de Nível Superior</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/an.png" alt="Luciana Amorim"><strong>Luciana Amorim Rodrigues Lima</strong><span> — Técnico de Apoio Administrativo</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Erico.png" alt="Érico Nogueira"><strong>Érico Nogueira de Areia Leão</strong><span> — Assistente Administrativo</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Adelline.png" alt="Addeline Pereira"><strong>Addeline Pereira Borges</strong><span> — Auxiliar Administrativo</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Claudete.png" alt="Creusa Maria"><strong>Creusa Maria Costa de Oliveira</strong><span> — Agente Técnico de Serviço</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/Jacira.png" alt="Jacira Gonçalves"><strong>Jacira Gonçalves de Oliveira</strong><span> — Assistente de serviço I</span></li>
+        <li><img class="team-list-photo" src="imagem/colaboradores/David.png" alt="David Perfeito"><strong>David Perfeito Leôncio</strong><span> — Desenvolvedor Web</span></li>
+      </ul>
+      <div style="text-align:right; margin-top:12px;"><button class="btn-small" onclick="closeTeamModal()">Fechar</button></div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-item');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const totalSlides = slides.length;
+
+    function showSlide(n) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      slides[n].classList.add('active');
+      dots[n].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      showSlide(currentSlide);
+    }
+
+    // Auto-play do carrossel a cada 5 segundos
+    setInterval(nextSlide, 5000);
+
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      const hamburger = document.querySelector('.hamburger');
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('active');
+    }
+
+    function toggleSubmenu(e) {
+      const submenu = e.currentTarget.nextElementSibling;
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        submenu.classList.toggle('open');
+      }
+    }
+
+    // Fechar menu ao clicar em um link (pula o toggle do submenu em mobile)
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.dataset.submenu === 'true' && window.innerWidth <= 768) {
+          // clique no link que abre o submenu no mobile - não fechar o menu
+          return;
+        }
+        document.getElementById('menu').classList.remove('active');
+        document.querySelector('.hamburger').classList.remove('active');
+        document.querySelectorAll('.submenu.open').forEach(s => s.classList.remove('open'));
+      });
+    });
+
+      // Funções para modal da equipe
+      function openTeamModal() {
+        document.getElementById('teamModal').classList.add('open');
+        document.getElementById('teamModal').querySelector('button[aria-label]')?.focus();
+      }
+
+      function closeTeamModal() {
+        document.getElementById('teamModal').classList.remove('open');
+      }
+
+      // Fechar modal ao clicar fora do conteúdo
+      document.getElementById('teamModal').addEventListener('click', function(e) {
+        if (e.target === this) closeTeamModal();
+      });
+
+      // Mostrar/ocultar iniciais dependendo do carregamento da imagem
+      document.querySelectorAll('.team-photo').forEach(img => {
+        const initials = img.parentElement.querySelector('.team-initials');
+        img.addEventListener('load', () => {
+          if (initials) initials.style.display = 'none';
+        });
+        img.addEventListener('error', () => {
+          img.style.display = 'none';
+          if (initials) initials.style.display = 'flex';
+        });
+        // se a imagem já estiver em cache e carregada
+        if (img.complete && img.naturalWidth !== 0) {
+          if (initials) initials.style.display = 'none';
+        }
+      });
+
+      // Tratamento do formulário de contato (simulação)
+      document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // aqui você pode integrar com backend/serviço de email
+        const success = document.getElementById('contactSuccess');
+        success.style.display = 'block';
+        this.reset();
+        setTimeout(() => {
+          success.style.display = 'none';
+          document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        }, 4000);
+      });
+  </script>
+</body>
+</html>
