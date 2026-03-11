@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="David Perfeito Leôncio" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Escola de Saúde Pública do Piauí</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <img src="imagem/logo.svg" alt="Logo Escola de Saúde" />Escola de Saúde Pública do Piauí
+        </div>
+        <div
+          class="hamburger"
+          onclick="toggleMenu()"
+          tabindex="0"
+          role="button"
+          aria-label="Abrir menu"
+          aria-controls="menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <nav>
+          <ul id="menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#courses">Cursos</a></li>
+            <li class="has-submenu">
+              <a
+                href="#services"
+                class="submenu-toggle"
+                data-submenu="true"
+                onclick="toggleSubmenu(event)"
+                >Serviços ▾</a
+              >
+              <ul class="submenu" aria-label="Submenu Serviços">
+                <li><a href="#noticias">Notícias</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+              </ul>
+            </li>
+            <li><a href="#contact">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Seção Galeria -->
+      <section class="news-section" id="galeria">
+        <h2>Galeria</h2>
+        <div class="news-grid">
+          <article class="news-item"><a href="06032026.html" target="_blank" text-decoration="none">
+            <img
+              class="news-thumb"
+              src="imagem/webinario.jpeg"
+              alt="Notícia 1"
+            />
+            <div class="news-body">
+              <div class="news-meta">Publicado em 06 mar 2026 • Galeria</div>
+              <h4 class="news-title">Aniversário do Colaborador Welliton</h4>>
+            </div>
+          </a>
+          </article>
+
+          <article class="news-item">
+            <img class="news-thumb" src="imagem/banner02.jpg" alt="Notícia 2" />
+            <div class="news-body">
+              <div class="news-meta">Publicado em 15 Jan 2026 • Notícias</div>
+              <h4 class="news-title">Parceria com Universidade Federal</h4>
+              <p>
+                Firmamos parceria para pesquisa em vigilância epidemiológica com
+                a UF local.
+              </p>
+            </div>
+          </article>
+
+          <article class="news-item">
+            <img class="news-thumb" src="imagem/banner03.png" alt="Notícia 3" />
+            <div class="news-body">
+              <div class="news-meta">Publicado em 02 Dez 2025 • Notícias</div>
+              <h4 class="news-title">Relatório de Impacto 2025</h4>
+              <p>
+                Publicamos o relatório anual com os principais resultados das
+                ações implementadas.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sobre a Escola</h3>
+          <p>
+            A Escola de Saúde Pública do Piauí é uma instituição dedicada à
+            formação de profissionais qualificados na área de saúde pública, com
+            excelência e inovação.
+          </p>
+          <div class="social-links">
+            <a href="#" title="Facebook" aria-label="Facebook">f</a>
+            <a href="#" title="Instagram" aria-label="Instagram">📷</a>
+            <a href="#" title="LinkedIn" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Links Rápidos</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Sobre Nós</a></li>
+            <li><a href="#courses">Cursos</a></li>
+            <li><a href="#services">Serviços</a></li>
+            <li><a href="#contact">Contato</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Cursos</h3>
+          <ul>
+            <li><a href="#courses">Equidade em Saúde</a></li>
+            <li><a href="#courses">Saúde Pública</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contato</h3>
+          <ul>
+            <li>
+              <strong>Email:</strong>
+              <a href="mailto:contato@escolasaude.pi.gov.br"
+                >contato@escolasaude.pi.gov.br</a
+              >
+            </li>
+            <li>
+              <strong>Telefone:</strong>
+              <a href="tel:+558632215000">(86) 3221-5000</a>
+            </li>
+            <li><strong>Endereço:</strong> Teresina, Piauí - Brasil</li>
+            <li><strong>Horário:</strong> Seg-Sex: 8h às 17h</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Escola de Saúde Pública do Piauí. Todos os direitos
+          reservados.
+        </p>
+        <p>
+          Desenvolvido com David Perfeito Leôncio para a Escola de Saúde Pública
+          do Piauí
+        </p>
+      </div>
+    </footer>
+
+    <!-- Modal Galeria de Imagens -->
+    <div
+      id="imageModal"
+      class="image-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="imageModalTitle"
+    >
+      <div class="image-modal-overlay" onclick="closeImageModal()"></div>
+      <div class="image-modal-container">
+        <button
+          class="image-modal-close"
+          aria-label="Fechar visualização de imagem"
+          onclick="closeImageModal()"
+        >
+          ✕
+        </button>
+        <img id="imageModalImg" src="" alt="" class="image-modal-img" />
+        <p id="imageModalCaption" class="image-modal-caption"></p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
