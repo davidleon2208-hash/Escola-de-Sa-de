@@ -908,6 +908,13 @@ nav a:hover {
   margin-bottom: 10px;
 }
 
+.publice {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
 .events-section {
   padding: 60px 20px;
   background: #f7fbff;
